@@ -1,0 +1,9 @@
+build.php
+deployment.php
+
+BaldProject.kpf
+*~
+.DS_Store
+www/application/config
+www/application/logs
+www/application/cache

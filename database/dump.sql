@@ -1,0 +1,166 @@
+-- MySQL dump 10.11
+--
+-- Host: localhost    Database: bald4thecure_dev
+-- ------------------------------------------------------
+-- Server version	5.0.75-0ubuntu10.2
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `cities`
+--
+
+DROP TABLE IF EXISTS `cities`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `cities` (
+  `id` smallint(5) unsigned NOT NULL auto_increment,
+  `name` varchar(255) NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Dumping data for table `cities`
+--
+
+LOCK TABLES `cities` WRITE;
+/*!40000 ALTER TABLE `cities` DISABLE KEYS */;
+INSERT INTO `cities` VALUES (1,'Seattle, WA');
+/*!40000 ALTER TABLE `cities` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `city_leaderboards`
+--
+
+DROP TABLE IF EXISTS `city_leaderboards`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `city_leaderboards` (
+  `id` smallint(5) unsigned NOT NULL auto_increment,
+  `city` varchar(255) NOT NULL,
+  `rank` tinyint(3) unsigned NOT NULL,
+  `total` smallint(5) unsigned NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Dumping data for table `city_leaderboards`
+--
+
+LOCK TABLES `city_leaderboards` WRITE;
+/*!40000 ALTER TABLE `city_leaderboards` DISABLE KEYS */;
+/*!40000 ALTER TABLE `city_leaderboards` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `photos`
+--
+
+DROP TABLE IF EXISTS `photos`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `photos` (
+  `id` smallint(5) unsigned NOT NULL auto_increment,
+  `user_id` smallint(5) unsigned NOT NULL,
+  `type` char(4) NOT NULL,
+  `url` varchar(255) NOT NULL,
+  `width` smallint(5) unsigned NOT NULL,
+  `height` smallint(5) unsigned NOT NULL,
+  `created` datetime NOT NULL,
+  PRIMARY KEY  (`id`),
+  KEY `users_id_fk` (`user_id`),
+  CONSTRAINT `users_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Dumping data for table `photos`
+--
+
+LOCK TABLES `photos` WRITE;
+/*!40000 ALTER TABLE `photos` DISABLE KEYS */;
+/*!40000 ALTER TABLE `photos` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `user_leaderboards`
+--
+
+DROP TABLE IF EXISTS `user_leaderboards`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `user_leaderboards` (
+  `id` smallint(5) unsigned NOT NULL auto_increment,
+  `user_id` smallint(5) unsigned NOT NULL,
+  `type` char(4) NOT NULL,
+  `rank` tinyint(4) unsigned NOT NULL,
+  `total` smallint(5) unsigned NOT NULL,
+  PRIMARY KEY  (`id`),
+  KEY `user_id_fk` (`user_id`),
+  CONSTRAINT `user_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Dumping data for table `user_leaderboards`
+--
+
+LOCK TABLES `user_leaderboards` WRITE;
+/*!40000 ALTER TABLE `user_leaderboards` DISABLE KEYS */;
+/*!40000 ALTER TABLE `user_leaderboards` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `users`
+--
+
+DROP TABLE IF EXISTS `users`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `users` (
+  `id` smallint(5) unsigned NOT NULL auto_increment,
+  `username` varchar(80) NOT NULL,
+  `twitter_id` int(10) unsigned NOT NULL,
+  `name` varchar(80) NOT NULL,
+  `city` varchar(80) NOT NULL,
+  `avatar` varchar(255) default NULL,
+  `twitter_oauth_token` varchar(255) default NULL,
+  `twitter_oauth_token_secret` varchar(255) default NULL,
+  `pledges_total` int(10) unsigned NOT NULL default '0',
+  `city_id` smallint(5) unsigned NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Dumping data for table `users`
+--
+
+LOCK TABLES `users` WRITE;
+/*!40000 ALTER TABLE `users` DISABLE KEYS */;
+
+/*!40000 ALTER TABLE `users` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2010-01-20  4:22:41

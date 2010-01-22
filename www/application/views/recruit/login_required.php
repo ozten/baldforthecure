@@ -1,0 +1,1 @@
+<p>You'll need to log in before you can recruit others. Please <a href="<?= url::site('/oauth/login')?>">Log in with Tiwtter</a></p>

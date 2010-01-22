@@ -3,13 +3,7 @@
 require_once(Kohana::find_file('libraries', 'twitteroauth', TRUE, 'php'));
 
 /**
- * Default Kohana controller. This controller should NOT be used in production.
- * It is for demonstration purposes only!
  *
- * @package    Core
- * @author     Kohana Team
- * @copyright  (c) 2007-2008 Kohana Team
- * @license    http://kohanaphp.com/license.html
  */
 class OAuth_Controller extends Common_Controller {
 	public function login()

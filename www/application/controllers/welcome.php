@@ -16,9 +16,10 @@ class Welcome_Controller extends Common_Controller {
 
 	public function index()
 	{
-		$this->template->title = 'Bald for the Cure Home';
+		$this->template->title = 'The Latest';
 		
 		$this->template->content = new View('welcome/index');
+		$this->template->content->title = "The Latest";
 		
 		$this->template->content->city_leader = new View('widgets/leaderboard');
 		$this->template->content->city_leader->type = "Best Cities";

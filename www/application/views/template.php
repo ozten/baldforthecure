@@ -12,28 +12,41 @@
 
 </head>
 <body>
-    <div class="logo">Bald for the Cure</div>
-	<div class="motto">Raising money for the families of cancer victims</div>
-	<div id="account-area">Account area: Login / Create An Account via Twitter
-    <?= $user_widget ?>
-	</div>
-	<h1><?php echo html::specialchars($title) ?></h1>
-	<ul class="nav">
-		<li><a href="<?= url::site("/") ?>">Home</a></li>
-	    <li><a href="<?= url::site("/profile/index/ozten") ?>">Sample Profile</a></li>
+	<div class="page">
+		<div class="header">
+		    <div class="logo"><a href="<?= url::site("/") ?>">Bald for the Cure</a></div>
+			<ul id="header-nav" class="nav">
+				<li><a href="#">Donate</a></li>
+				<li><a href="/recruit/index">Recruit</a></li>
+				<li><?= $user_widget ?></li>
+	    
+		<!--li><a href="<?= url::site("/blog") ?>">Blog</a></li>
 		<li><a href="<?= url::site("/profiles/browse") ?>">Everybody</a></li>
 	    <li><a href="#">About Bald for the Cure</a></li>
 		<li><a href="#">Sponsors</a></li>
 	    <li><a href="#">Press</a></li>
-		<li><a href="#">Tweet</a></li>
-	    
-	</ul>
-	<?php echo $content ?>
-
-	<p class="copyright">
-		Rendered in {execution_time} seconds, using {memory_usage} of memory<br />
-		Copyright &copy;2007&mdash;2008 Kohana Team
-	</p>
-
+		<li><a href="#">Tweet</a></li-->
+			</ul>
+	
+		<div class="motto">Our mission is to do good work to stop cancer
+		by donating our hair.</div>
+	
+	
+			<ul class="page-nav">
+				<li><a href="#">Count Me In</a></li>
+				<li><a href="#">Donate Now</a></li>
+			</ul>
+		</div><!-- /header -->
+		<div class="content">
+		    <?php echo $content ?>
+			<br class="clearboth" />
+		</div>
+		<div class="footer">
+			<p class="copyright">
+			Rendered in {execution_time} seconds, using {memory_usage} of memory<br />
+			Copyright &copy;2007&mdash;2008 Kohana Team
+			</p>			
+		</div><!-- /footer -->
+	</div><!-- /page -->
 </body>
 </html>

@@ -23,7 +23,6 @@ class Common_Controller extends Template_Controller {
 	
 	protected function recognizeUser()
 	{
-		echo "Session " . isset($_SESSION);
 		if (! isset($_SESSION)) {
 			//TODO: Work out minimal session access
 		    session_start();

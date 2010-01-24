@@ -12,6 +12,8 @@ class Recruit_Controller extends Common_Controller {
 			$this->template->title = "Recruit Your Friends for Bald for the Cure";
 		    $this->template->content = new View('recruit/index');
 			$this->template->content->title = "Recruit Your Friends, Update Your Status";
+			$recruit_url = url::site("/recruit/by/" . $_SESSION['username']);
+			$this->template->content->recruit_url = bitly::shorten($recruit_url);
 		} else {
 			$this->template->title = "Login Required";
 			$this->template->content = new View('recruit/login_required');
@@ -35,6 +37,10 @@ class Recruit_Controller extends Common_Controller {
 		} else {
 			echo json_encode(array('error' => 'Error: Not logged in'));
 		}
+	}
+	public function by($username)
+	{
+		
 	}
 	public function friend()
 	{

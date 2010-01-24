@@ -35,7 +35,6 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `cities` WRITE;
 /*!40000 ALTER TABLE `cities` DISABLE KEYS */;
-INSERT INTO `cities` VALUES (1,'Seattle, WA');
 /*!40000 ALTER TABLE `cities` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -49,10 +48,9 @@ SET character_set_client = utf8;
 CREATE TABLE `city_leaderboards` (
   `id` smallint(5) unsigned NOT NULL auto_increment,
   `city` varchar(255) NOT NULL,
-  `rank` tinyint(3) unsigned NOT NULL,
   `total` smallint(5) unsigned NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
 --
@@ -62,6 +60,30 @@ SET character_set_client = @saved_cs_client;
 LOCK TABLES `city_leaderboards` WRITE;
 /*!40000 ALTER TABLE `city_leaderboards` DISABLE KEYS */;
 /*!40000 ALTER TABLE `city_leaderboards` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `city_leaderboards_loading`
+--
+
+DROP TABLE IF EXISTS `city_leaderboards_loading`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `city_leaderboards_loading` (
+  `id` smallint(5) unsigned NOT NULL auto_increment,
+  `city` varchar(255) NOT NULL,
+  `total` smallint(5) unsigned NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Dumping data for table `city_leaderboards_loading`
+--
+
+LOCK TABLES `city_leaderboards_loading` WRITE;
+/*!40000 ALTER TABLE `city_leaderboards_loading` DISABLE KEYS */;
+/*!40000 ALTER TABLE `city_leaderboards_loading` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -95,31 +117,137 @@ LOCK TABLES `photos` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `user_leaderboards`
+-- Table structure for table `recruits`
 --
 
-DROP TABLE IF EXISTS `user_leaderboards`;
+DROP TABLE IF EXISTS `recruits`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
-CREATE TABLE `user_leaderboards` (
-  `id` smallint(5) unsigned NOT NULL auto_increment,
-  `user_id` smallint(5) unsigned NOT NULL,
-  `type` char(4) NOT NULL,
-  `rank` tinyint(4) unsigned NOT NULL,
-  `total` smallint(5) unsigned NOT NULL,
-  PRIMARY KEY  (`id`),
-  KEY `user_id_fk` (`user_id`),
-  CONSTRAINT `user_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+CREATE TABLE `recruits` (
+  `recruiter` smallint(5) unsigned NOT NULL,
+  `recruitee` smallint(5) unsigned NOT NULL,
+  PRIMARY KEY  (`recruiter`,`recruitee`),
+  KEY `recruits_recruitee` (`recruitee`),
+  CONSTRAINT `recruits_recruitee` FOREIGN KEY (`recruitee`) REFERENCES `users` (`id`),
+  CONSTRAINT `recruits_user_fk` FOREIGN KEY (`recruiter`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
 --
--- Dumping data for table `user_leaderboards`
+-- Dumping data for table `recruits`
 --
 
-LOCK TABLES `user_leaderboards` WRITE;
-/*!40000 ALTER TABLE `user_leaderboards` DISABLE KEYS */;
-/*!40000 ALTER TABLE `user_leaderboards` ENABLE KEYS */;
+LOCK TABLES `recruits` WRITE;
+/*!40000 ALTER TABLE `recruits` DISABLE KEYS */;
+/*!40000 ALTER TABLE `recruits` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `user_pledge_leaderboards`
+--
+
+DROP TABLE IF EXISTS `user_pledge_leaderboards`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `user_pledge_leaderboards` (
+  `id` smallint(5) unsigned NOT NULL auto_increment,
+  `user_id` smallint(5) unsigned NOT NULL,
+  `total` smallint(5) unsigned NOT NULL,
+  `city_id` smallint(5) unsigned NOT NULL,
+  PRIMARY KEY  (`id`),
+  KEY `user_id_fk` (`user_id`),
+  CONSTRAINT `user_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Dumping data for table `user_pledge_leaderboards`
+--
+
+LOCK TABLES `user_pledge_leaderboards` WRITE;
+/*!40000 ALTER TABLE `user_pledge_leaderboards` DISABLE KEYS */;
+/*!40000 ALTER TABLE `user_pledge_leaderboards` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `user_pledge_leaderboards_loading`
+--
+
+DROP TABLE IF EXISTS `user_pledge_leaderboards_loading`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `user_pledge_leaderboards_loading` (
+  `id` smallint(5) unsigned NOT NULL auto_increment,
+  `user_id` smallint(5) unsigned NOT NULL,
+  `total` smallint(5) unsigned NOT NULL,
+  `city_id` smallint(5) unsigned NOT NULL,
+  PRIMARY KEY  (`id`),
+  KEY `user_id_loading_fk` (`user_id`),
+  CONSTRAINT `user_id_loading_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Dumping data for table `user_pledge_leaderboards_loading`
+--
+
+LOCK TABLES `user_pledge_leaderboards_loading` WRITE;
+/*!40000 ALTER TABLE `user_pledge_leaderboards_loading` DISABLE KEYS */;
+/*!40000 ALTER TABLE `user_pledge_leaderboards_loading` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `user_recruit_leaderboards`
+--
+
+DROP TABLE IF EXISTS `user_recruit_leaderboards`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `user_recruit_leaderboards` (
+  `id` smallint(5) unsigned NOT NULL auto_increment,
+  `user_id` smallint(5) unsigned NOT NULL,
+  `total` smallint(5) unsigned NOT NULL,
+  `city_id` smallint(5) unsigned NOT NULL,
+  PRIMARY KEY  USING BTREE (`id`),
+  KEY `user_id_fk` USING BTREE (`user_id`),
+  CONSTRAINT `user_recruit_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Dumping data for table `user_recruit_leaderboards`
+--
+
+LOCK TABLES `user_recruit_leaderboards` WRITE;
+/*!40000 ALTER TABLE `user_recruit_leaderboards` DISABLE KEYS */;
+/*!40000 ALTER TABLE `user_recruit_leaderboards` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `user_recruit_leaderboards_loading`
+--
+
+DROP TABLE IF EXISTS `user_recruit_leaderboards_loading`;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+CREATE TABLE `user_recruit_leaderboards_loading` (
+  `id` smallint(5) unsigned NOT NULL auto_increment,
+  `user_id` smallint(5) unsigned NOT NULL,
+  `total` smallint(5) unsigned NOT NULL,
+  `city_id` smallint(5) unsigned NOT NULL,
+  PRIMARY KEY  USING BTREE (`id`),
+  KEY `user_id_fk` USING BTREE (`user_id`),
+  CONSTRAINT `user_recruit_load_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Dumping data for table `user_recruit_leaderboards_loading`
+--
+
+LOCK TABLES `user_recruit_leaderboards_loading` WRITE;
+/*!40000 ALTER TABLE `user_recruit_leaderboards_loading` DISABLE KEYS */;
+/*!40000 ALTER TABLE `user_recruit_leaderboards_loading` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -140,6 +268,7 @@ CREATE TABLE `users` (
   `twitter_oauth_token_secret` varchar(255) default NULL,
   `pledges_total` int(10) unsigned NOT NULL default '0',
   `city_id` smallint(5) unsigned NOT NULL,
+  `created` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
@@ -150,7 +279,6 @@ SET character_set_client = @saved_cs_client;
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -163,4 +291,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2010-01-20  4:22:41
+-- Dump completed on 2010-01-24 19:54:10

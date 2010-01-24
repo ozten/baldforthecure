@@ -121,5 +121,15 @@ h1{ border: solid 1px white; }
     text-transform: uppercase;
 }
 
+.recruit-tweets {
+    margin: 2em;
+}
+.recruit-tweets select {
+    display: block;
+}
+.recruit-tweets textarea {
+    width: 40em;
+}
+
 /* utility classes */
 .clearboth { clear: both; }

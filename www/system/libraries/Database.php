@@ -254,9 +254,11 @@ class Database_Core {
 		{
 			$sql = $this->compile_binds($sql, $binds);
 		}
-		Kohana::log('debug', $sql);
+		
 		// Fetch the result
 		$result = $this->driver->query($this->last_query = $sql);
+		
+		Kohana::log('debug', "RESULT: " . count($result) . " SQL: " . $sql);
 		
 		// Stop the benchmark
 		$stop = microtime(TRUE);

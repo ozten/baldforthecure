@@ -48,5 +48,7 @@
 			</p>			
 		</div><!-- /footer -->
 	</div><!-- /page -->
+<script src="/js/jquery-1.4.min.js" type="text/javascript"></script>
+<script src="/js/behaviors.js" type="text/javascript"></script>
 </body>
 </html>

@@ -44,8 +44,7 @@ class OAuth_Controller extends Common_Controller {
 	public function success()
 	{
 		$this->auto_render = FALSE;
-		
-		Kohana::log('info', "Heya");
+				
 		/*$consumer_key    = "SfM2iXdD4FyjbsTT1AFQ";
 		$consumer_secret = "5DYzuGXPo3bZOBiigUjQDfYZqMLwNSa21iOiaoy1Cs";
 		*/
@@ -54,8 +53,7 @@ class OAuth_Controller extends Common_Controller {
 		}
 		/* If the oauth_token is old redirect to the connect page. */
 		if (isset($_REQUEST['oauth_token']) && $_SESSION['oauth_token'] !== $_REQUEST['oauth_token']) {
-		  $_SESSION['oauth_status'] = 'oldtoken';
-		  echo "Say what?";
+		  $_SESSION['oauth_status'] = 'oldtoken';		  
 		}
 		/* Create TwitteroAuth object with app key/secret and token key/secret from default phase */
 		$connection = new TwitterOAuth(Kohana::config("twitteroauth.CONSUMER_KEY"),
@@ -93,7 +91,7 @@ class OAuth_Controller extends Common_Controller {
 		
 		$user = $connection->get('account/verify_credentials');
 		$username = trim($user->screen_name);
-		  
+		$_SESSION['username'] = $username;  
 		Kohana::log('debug', "Searching for " . $user->screen_name);
 		$existing_user = ORM::factory('user')->where('username', trim($user->screen_name))->find();
 		if ($existing_user->loaded) {

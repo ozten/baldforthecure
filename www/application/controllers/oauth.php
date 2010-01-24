@@ -94,8 +94,12 @@ class OAuth_Controller extends Common_Controller {
 		$_SESSION['username'] = $username;  
 		Kohana::log('debug', "Searching for " . $user->screen_name);
 		$existing_user = ORM::factory('user')->where('username', trim($user->screen_name))->find();
+		
 		if ($existing_user->loaded) {
 			Kohana::log('debug', "Found user, skipping creation");
+			# uncomment below to allow multiple recruit credits, otherwise, we'll only
+			# record the inital recruit when user account is created
+			# $this->saveRecruiter($existing_user);
 		} else {
 			Kohana::log('debug', "New user, creating");
 			
@@ -116,12 +120,24 @@ class OAuth_Controller extends Common_Controller {
 			$u->twitter_oauth_token_secret = $access_token['oauth_token_secret'];
 			
 			$u->save();
-		}		
+			$this->saveRecruiter($u);
+		}
 		
 		$_SESSION['username'] = $username;
 		
 		// redirect
 		url::redirect('/profile/index/' . $username);
+	}
+	
+	protected function saveRecruiter($model)
+	{
+		if (array_key_exists('recruiter', $_SESSION)) {
+			$g = new Recruit_Model;
+			$g->saveRecruit($_SESSION['recruiter'], $model->id);
+			unset($_SESSION['recruiter']);
+		} else {
+			Kohana::log('debug', "No recruiter info present");
+		}
 	}
 	
 	public function logout()

@@ -40,7 +40,12 @@ class Recruit_Controller extends Common_Controller {
 	}
 	public function by($username)
 	{
-		
+		if (! isset($_SESSION)) {
+		    session_start();
+		}
+		# Setup who recruited us for credit after account creation
+		$_SESSION['recruiter'] = $username;
+		url::redirect(url::site('/oauth/login'));
 	}
 	public function friend()
 	{

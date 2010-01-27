@@ -71,7 +71,17 @@ class Welcome_Controller extends Common_Controller {
 	public function latestUpdates()
 	{
 		$limit = 10;
-		return $users = ORM::factory('user')->orderby('created', 'DESC')->find_all($limit);
+		$users = ORM::factory('user')->orderby('created', 'DESC')->find_all($limit);
+		#$photos = ORM::factory('photo')->join('users', 'photos.user_id', 'users.id')->orderby('created', 'DESC')->find_all($limit);
+		$photos = ORM::factory('photo')->with('user')->orderby('created', 'DESC')->find_all($limit);
+		$updates = array();
+		foreach($users as $user) {
+			array_push($updates, $user);
+		}
+		foreach($photos as $photo) {
+			array_push($updates, $photo);
+		}
+		return $updates;
 	}
 
 }

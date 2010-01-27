@@ -11,5 +11,22 @@ class Photo_Model extends ORM
     );
     
     protected $belongs_to = array('user');
+    
+    public $username;
+    
+    /*** update area support ***/
+    public function username()
+    {
+        return $this->user->username;
+    }
+    public function action()
+    {
+        $this->username = $this->user_id;
+        return "uploaded";
+    }
+    public function show()
+    {
+        return "<img src='" . $this->url . "' width='" . $this->width . "' height='" . $this->height . "' />";
+    }
 }
 ?>

@@ -14,7 +14,7 @@
 <body>
 	<div class="page">
 		<div class="header">
-		    <div class="logo"><a href="<?= url::site("/") ?>">Bald for the Cure</a></div>
+		    <div class="logo"><a href="<?= url::site("/") ?>"><img src="<?= url::site('/i/B4C_logo_sm.jpg')?>" width="300" height="229" alt="Bald for the Cure Logo" /></a></div>
 			<ul id="header-nav" class="nav">
 				<li><a href="#">Donate</a></li>
 				<li><a href="/recruit/index">Recruit</a></li>

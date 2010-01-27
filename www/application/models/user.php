@@ -11,5 +11,18 @@ class User_Model extends ORM
                                  LIMIT 10
                                 ");
     }
+    /*** update area support ***/
+    public function username()
+    {
+        return $this->username;
+    }
+    public function action()
+    {
+        return "joined";
+    }
+    public function show()
+    {
+        return "<a href='" . url::site('/profile/index/' . $this->username) . "'><img src='" . $this->avatar . "' width='48' height='48' /></a>";
+    }
 }
 ?>

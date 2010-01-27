@@ -1,13 +1,12 @@
 <?php defined('SYSPATH') OR die('No direct access allowed.'); ?>
 <h1><?php echo html::specialchars($title) ?></h1>
-<ul>
-    
-    
+<ul class="updates">
 <?php if (is_null($updates)) { ?>
     
 <?php } else {
-        foreach($updates as $update) { ?>
-            <li><?= $update->username ?> joined on <?= date('M, d h:m', strtotime($update->created)) ?></li>
+        foreach($updates as $update) {            
+                ?>
+            <li><?= $update->show() ?> <a href="<?= url::site('/profile/index/' . $update->username()) ?>"><?= $update->username() ?></a> <?= $update->action() ?> on <?= date('M, d h:m', strtotime($update->created)) ?></li>
 <?php   }    
       }
 ?>

@@ -61,8 +61,8 @@ table {
     border: solid 1px grey; 
     font-size: 3em;
     float: left;
-    height: 200px;
-    width: 200px;
+    height: 229px;
+    width: 300px;
   }
 #header-nav {
     float: left;
@@ -89,7 +89,7 @@ table {
 }
 .header {
     border: solid 1px grey;
-    min-height: 200px;
+    min-height: 229px; /* logo height */
     position: relative;
 }
 .content {
@@ -129,6 +129,11 @@ h1{ border: solid 1px white; }
 }
 .recruit-tweets textarea {
     width: 40em;
+}
+
+ul.updates {
+	float: left;
+	width: 500px;
 }
 
 /* utility classes */

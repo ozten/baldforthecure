@@ -3,7 +3,11 @@
 require_once(Kohana::find_file('libraries', 'twitteroauth', TRUE, 'php'));
 
 /**
- *
+ * This controller is the canonical reference for what should be
+ * in the users SESSIOn. Currently a logged in user has
+ *  username - Twitter screenname at the time of signup
+ *  userid - B4TC user id - main key used in the database
+ *  access_token - Twitter access token
  */
 class OAuth_Controller extends Common_Controller {
 	public function login()
@@ -91,15 +95,16 @@ class OAuth_Controller extends Common_Controller {
 		
 		$user = $connection->get('account/verify_credentials');
 		$username = trim($user->screen_name);
-		$_SESSION['username'] = $username;  
+		$_SESSION['username'] = $username;		
 		Kohana::log('debug', "Searching for " . $user->screen_name);
 		$existing_user = ORM::factory('user')->where('username', trim($user->screen_name))->find();
-		
+		$user_id = -1;
 		if ($existing_user->loaded) {
 			Kohana::log('debug', "Found user, skipping creation");
 			# uncomment below to allow multiple recruit credits, otherwise, we'll only
 			# record the inital recruit when user account is created
 			# $this->saveRecruiter($existing_user);
+			$user_id = $existing_user->id;
 		} else {
 			Kohana::log('debug', "New user, creating");
 			
@@ -120,10 +125,15 @@ class OAuth_Controller extends Common_Controller {
 			$u->twitter_oauth_token_secret = $access_token['oauth_token_secret'];
 			
 			$u->save();
+			$user_id = $u->id;
 			$this->saveRecruiter($u);
 		}
 		
 		$_SESSION['username'] = $username;
+		if ($user_id != -1) {
+			$_SESSION['userid'] = $user_id;	
+		}
+		
 		
 		// redirect
 		url::redirect('/profile/index/' . $username);
@@ -189,5 +199,14 @@ class OAuth_Controller extends Common_Controller {
 		// the value I give it here.
 		$this->template->title = 'Welcome to Kohana!';
 		
+	}
+	// http://bald.ubuntu/oauth/flickr_success?frob=72157623286479286-dd7560d46aeb7dd6-165532&extra=%2Fprofile%2Findex%2Fozten
+	public function flickr_success()
+	{
+		$this->auto_render = FALSE;
+		$flickr = flickr::makeFlickr();
+		
+		$flickr->auth_getToken($this->input->get('frob'));
+		url::redirect($this->input->get('extra'));
 	}
 }

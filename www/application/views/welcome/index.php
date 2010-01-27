@@ -16,15 +16,19 @@
 <div class="sidebar">
     <div class="leaderboards">
         <div class="donation-count">
-            <h2>$7,500</h2>
+            <h2>$<?= $total_pledges ?>s</h2>
             <p>Donations</p>
         </div>
         <h3>Top Raisers</h3>
         <?= $people_leader ?>
         
         <?= $recruit_leader ?>
+        
         <h3>Top Recruiters</h3>
         <?= $city_leader ?>
+        <h3>Top User Cities</h3>
+        <?= $user_city_leader ?>
+        
     </div><!-- /leaderboards -->
     <div class="leaderboards">
         <h2>Recent News</h2>

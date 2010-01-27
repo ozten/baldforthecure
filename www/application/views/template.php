@@ -38,6 +38,17 @@
 			</ul>
 		</div><!-- /header -->
 		<div class="content">
+			<div id="errors">
+				<?php
+				if (isset($error_messages) && is_array($error_messages) && count($error_messages) > 0) { ?>
+					<ol><?php
+					
+					foreach($error_messages as $error) { ?>
+						<li><?= $error ?></li>
+			<?php   }
+					?></ol><p>Please wait a few minutes and try again. Sorry about that.</p>
+		  <?php } ?>
+			</div>
 		    <?php echo $content ?>
 			<br class="clearboth" />
 		</div>

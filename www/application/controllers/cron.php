@@ -19,15 +19,16 @@ class Cron_Controller extends Common_Controller {
 		
         $this->auto_render = FALSE;
         if ($this->_isAGood($sekrit)) {
-			if ($leaderboard_type == User_Leaderboard_Model::$pledge_type ||
-				$leaderboard_type == User_Leaderboard_Model::$recruit_type) {
+			if ($leaderboard_type == User_Pledge_Leaderboard_Model::$leader_type) {
+				$leaderboard = new User_Pledge_Leaderboard_Model;
+			} else if($leaderboard_type == User_Recruit_Leaderboard_Model::$leader_type) {								
 				#todo time me
-				$leaderboard = new User_Leaderboard_Model;
-				$leaderboard->recalculate($leaderboard_type);	
+				$leaderboard = new User_Pledge_Leaderboard_Model;
 			} else {
 				echo "Unknown Type";
+				return;
 			}
-			
+			$leaderboard->recalculate();
 		} else {
             echo "Permission Denied";
         }

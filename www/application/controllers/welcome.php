@@ -81,7 +81,20 @@ class Welcome_Controller extends Common_Controller {
 		foreach($photos as $photo) {
 			array_push($updates, $photo);
 		}
+		usort($updates, array($this, 'sortLatest'));
 		return $updates;
+	}
+	
+	public function sortLatest($a, $b)
+	{
+		// DESC
+		if ($a->created == $b->created) {
+			return 0;
+		} else if($a->created < $b->created){
+			return 1;
+		} else {
+			return -1;
+		}
 	}
 
 }

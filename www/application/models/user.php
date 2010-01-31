@@ -24,5 +24,22 @@ class User_Model extends ORM
     {
         return "<a href='" . url::site('/profile/index/' . $this->username) . "'><img src='" . $this->avatar . "' width='48' height='48' /></a>";
     }
+    
+    /**
+     * Given a list of twitter ids, returns user objects
+     * for users that already exist
+     */
+    public function get_users_by_twitter_ids($ids)
+    {
+        return $this->in('twitter_id', $ids)->find_all();
+    }
+    
+    public function repairPledgesTotal()
+    {
+        $this->db->query("UPDATE users SET pledges_total =
+                             (SELECT SUM(amount) FROM pledges WHERE shaver_user_id = ?)
+                          WHERE id = ?",
+                         array($this->id, $this->id));
+    }
 }
 ?>

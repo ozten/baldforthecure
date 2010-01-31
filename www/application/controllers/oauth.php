@@ -134,6 +134,7 @@ class OAuth_Controller extends Common_Controller {
 			$_SESSION['userid'] = $user_id;	
 		}
 		
+		$this->_repairSocialGraph($user_id);
 		
 		// redirect
 		url::redirect('/profile/index/' . $username);
@@ -168,6 +169,91 @@ class OAuth_Controller extends Common_Controller {
 		} else {
 			return trim($value);
 		}
+	}
+	
+	protected function twitterIfLoggedIn()
+	{
+		if (isset($_SESSION) &&
+		    array_key_exists('username', $_SESSION) &&
+			array_key_exists('access_token', $_SESSION)) {
+			return new TwitterOAuth(Kohana::config("twitteroauth.CONSUMER_KEY"),
+									       Kohana::config("twitteroauth.CONSUMER_SECRET"),
+									       $_SESSION['access_token']['oauth_token'],
+									       $_SESSION['access_token']['oauth_token_secret']);
+		
+		}
+		return FALSE;
+	}
+	
+	public function repairSocialGraph()
+	{
+		$this->auto_render = FALSE;
+		$twitter = $this->twitterIfLoggedIn();
+		
+		if ($twitter != FALSE) {
+			$this->_repairSocialGraph($_SESSION['userid']);			
+		} else {
+			header('Bad request', TRUE, 400);
+			echo "I got nothing for ya man.";
+		}
+	}
+	
+	public function _repairSocialGraph($user_id)
+	{
+		Kohana::log('info', "_repairSocialGraph called");
+		$twitter = $this->twitterIfLoggedIn();
+		
+		if ($twitter != FALSE) {
+			Kohana::log('info', "hitting twitter");
+				$ids = $twitter->get('friends/ids');
+				$friend_ids = array();
+				foreach($ids as $id) {
+					array_push($friend_ids, intval($id));
+				}
+				$existing_users = ORM::factory('user')->get_users_by_twitter_ids($friend_ids);
+				$existing_user_ids = array();
+				foreach($existing_users as $existing_user) {
+					array_push($existing_user_ids, $existing_user->twitter_id);
+				}
+				
+				$model = new Users_Friend_Model;
+				$existing_friends = $model->get_old_friends($user_id);
+								
+				$existing_friend_ids = array();
+				foreach($existing_friends as $existing_friend) {
+					array_push($existing_friend_ids, $existing_friend->friend_twitter_id);					
+				}
+				$new_user_ids = array_diff($friend_ids, $existing_user_ids, $existing_friend_ids);				
+				
+				$model = new Users_Friend_Model;
+				$model->add_new_friends($user_id, $new_user_ids);
+		} else {
+			Kohana::log('info', "Missing session variables to setup twitter");
+		}
+	}
+	
+	public function repairAvatar()
+	{
+		$this->auto_render = FALSE;
+		$twitter = $this->twitterIfLoggedIn();
+		
+		if ($twitter != FALSE) {
+
+			$info = $twitter->get('users/show', array(
+				'screen_name' => $_SESSION['username'],
+			));
+			//echo Kohana::debug($info);
+			
+			echo $info->profile_image_url;
+			$user = ORM::Factory('user')->where('username', $_SESSION['username'])->find();
+			$user->avatar = $info->profile_image_url;
+			$user->save();
+			
+		} else {
+			header('Bad request', TRUE, 400);
+			echo "I got nothing for ya man. You want 10 dollars for what?";
+		}
+		
 	}
 	
 	public function showAccount()

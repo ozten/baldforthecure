@@ -7,6 +7,8 @@ class Profile_Controller extends Common_Controller {
 	public function index($username)
 	{
 		$user = ORM::factory('user')->where('username', $username)->find();
+		$this->template->set_global('donate_shaver_user_id', $user->id);
+		
 		#$this->showPhotos();
 		$error_messages = array();
 		$current_users_profile = FALSE;

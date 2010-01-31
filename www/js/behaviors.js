@@ -17,4 +17,11 @@ $('document').ready(function(){
               });
         return false;
     });
+    $('#repair-avatar-btn').click(function(){
+        $(this).attr('disabled', 'disabled');
+        var that = this;
+        $.get('/oauth/repairAvatar', function(){
+            $(that).attr('disabled', null);
+        });
+    });
 });

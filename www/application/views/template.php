@@ -14,7 +14,7 @@
 <body>
 	<div class="page">
 		<div class="header">
-		    <div class="logo"><a href="<?= url::site("/") ?>"><img src="<?= url::site('/i/B4C_logo_sm.jpg')?>" width="300" height="229" alt="Bald for the Cure Logo" /></a></div>
+		    <div class="logo"><a href="<?= url::site("/") ?>"><img src="<?= url::site(Kohana::config('fundraiser.logo_small'))?>" width="300" height="229" alt="Bald for the Cure Logo" /></a></div>
 			<ul id="header-nav" class="nav">
 				<li><a href="#">Donate</a></li>
 				<li><a href="/recruit/index">Recruit</a></li>
@@ -28,13 +28,12 @@
 		<li><a href="#">Tweet</a></li-->
 			</ul>
 	
-		<div class="motto">Our mission is to do good work to stop cancer
-		by donating our hair.</div>
+		<div class="motto"><?= Kohana::config('fundraiser.motto') ?></div>
 	
 	
 			<ul class="page-nav">
-				<li><a href="#">Count Me In</a></li>
-				<li><a href="#">Donate Now</a></li>
+				<li><a href="<?= url::site('/oauth/login') ?>">Count Me In</a></li>
+				<li><a href="<?= url::site('/donate/user/' . $donate_shaver_user_id) ?>">Donate Now</a></li>
 			</ul>
 		</div><!-- /header -->
 		<div class="content">

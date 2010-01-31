@@ -35,6 +35,9 @@ class Common_Controller extends Template_Controller {
 			$this->template->user_widget = new View('widgets/login');
 		}
 		
+		# Who gets credit for donations on this page's donate now link?
+		$this->template->set_global('donate_shaver_user_id', -1);
+		
 		// Widget - 
 		// Is there a username in the session
 		// display username

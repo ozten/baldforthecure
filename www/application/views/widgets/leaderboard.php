@@ -4,7 +4,12 @@
 <thead><tr><th>Rank</th><th><?= $type ?></th><th><?= $total_type ?></th></tr></thead>
 <tbody>
 <?php for ($i=0; $i < count($leaders); $i++) { ?>
-<tr><td><?= $i + 1 ?></td><td><?= $leaders[$i][0] ?></td><td><?= $leaders[$i][1] ?></td></tr>
+<tr><td><?= $i + 1 ?></td><td><?php
+          if (array_key_exists('leader_link', $leaders[$i])) { ?>
+    <a href="<?= $leaders[$i]['leader_link'] ?>"><?= htmlentities($leaders[$i]['leader']) ?></a>
+    <?php } else { ?>
+    <?= htmlentities($leaders[$i]['leader']) ?>
+    <?php } ?></td><td><?= $leaders[$i]['amount'] ?></td></tr>
 <?php } ?>
 </tbody>
 </table>

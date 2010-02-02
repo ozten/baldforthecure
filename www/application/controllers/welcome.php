@@ -20,7 +20,7 @@ class Welcome_Controller extends Common_Controller {
 		
 		$this->template->content = new View('welcome/index');
 		$this->template->content->title = "The Latest";
-		$this->template->content->total_pledges = 7500;#TODO
+		$this->template->content->total_pledges = ORM::factory('user')->totalAllPledges();
 		$this->template->content->updates = $this->latestUpdates();
 		
 		$this->template->content->city_leader = new View('widgets/leaderboard');
@@ -29,18 +29,19 @@ class Welcome_Controller extends Common_Controller {
 		$city_leaders = ORM::factory('city_leaderboard')->orderby('id', 'DESC')->limit(10)->find_all();
 		$citys = array();
 		foreach ($city_leaders as $city_leader) {
-			array_push($citys, array($city_leader->city, "$" . $city_leader->total));
+			array_push($citys, array('leader' => $city_leader->city, 'amount' => "$" . $city_leader->total));
 		}
 		$this->template->content->city_leader->leaders = $citys;
 		
 		$this->template->content->people_leader = new View('widgets/leaderboard');
 		$this->template->content->people_leader->type = "Best Fundraisers";
 		$this->template->content->people_leader->total_type = "Cash Raised";
-		# TODO grab full name in cron 
+		
 		$pledgers = ORM::factory('user_pledge_leaderboard')->orderby('id', 'DESC')->limit(10)->find_all();
 		$pledges = array();
 		foreach($pledgers as $p) {
-			array_push($pledges, array($p->user_id, "$" . $p->total));
+			array_push($pledges, array('leader' => $p->name, 'amount' => "$" . $p->total,
+									   'leader_link' => url::site('/profile/index/' . $p->username)));
 		}
 		$this->template->content->people_leader->leaders = $pledges;
 		
@@ -50,22 +51,22 @@ class Welcome_Controller extends Common_Controller {
 		# TODO grab full name in cron 
 		$recruiters = ORM::factory('user_recruit_leaderboard')->orderby('id', 'DESC')->limit(10)->find_all();
 		$recruits = array();
-		foreach($recruits as $r) {
-			array_push($recruits, array($r->user_id, $r->total));
+		foreach($recruiters as $r) {
+			array_push($recruits, array('leader' => $r->name, 'amount' => $r->total,
+									    'leader_link' => url::site('/profile/index/' . $p->username)));
 		}
 		$this->template->content->recruit_leader->leaders = $recruits;
 		
 		$this->template->content->user_city_leader = new View('widgets/leaderboard');
 		$this->template->content->user_city_leader->type = "Top User in Seattle, WA";
 		$this->template->content->user_city_leader->total_type = "Pledges";		
-		$city_pledges = ORM::factory('user_pledge_leaderboard')->join('cities', 'cities.id', 'user_pledge_leaderboards.city_id')->where('name', 'Seattle, WA')->orderby('id', 'DESC')->limit(10)->find_all();
+		$city_pledges = ORM::factory('user_pledge_leaderboard')->join('cities', 'cities.id', 'user_pledge_leaderboards.city_id')->where('cities.name', 'Seattle, WA')->orderby('id', 'DESC')->limit(10)->find_all();
 		$cities = array();
 		foreach ($city_pledges as $c) {
-			array_push($cities, $c->user_id, "$" . $c->total);
+			array_push($cities, array('leader' => $c->name, 'amount' => "$" . $c->total,
+									  'leader_link' => url::site('/profile/index/' . $p->username)));
 		}
 		$this->template->content->user_city_leader->leaders = $cities;
-		
-		
 	}
 
 	public function latestUpdates()

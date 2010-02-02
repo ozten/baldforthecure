@@ -41,5 +41,9 @@ class User_Model extends ORM
                           WHERE id = ?",
                          array($this->id, $this->id));
     }
+    public function totalAllPledges()
+    {
+        return $this->db->query("SELECT SUM(pledges_total) as total FROM users")->current()->total;
+    }
 }
 ?>

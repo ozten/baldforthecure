@@ -16,10 +16,10 @@ class User_Recruit_Leaderboard_Model extends ORM
         echo "starting";
         $del = "DELETE FROM user_recruit_leaderboards_loading";        
             $ins = <<<INS_RCRT_SQL
-INSERT INTO user_recruit_leaderboards_loading (user_id, total, city_id)
-  SELECT users.id, COUNT(recruits.recruiter), users.city_id FROM users
+INSERT INTO user_recruit_leaderboards_loading (user_id, username, name, total, city_id)
+  SELECT users.id, users.username, users.name, COUNT(recruits.recruiter), users.city_id FROM users
   JOIN recruits ON recruits.recruiter = users.id
-  GROUP BY city_id, users.id
+  GROUP BY city_id, users.id, users.username, users.name
   ORDER BY city_id, COUNT(recruits.recruiter) DESC;
 INS_RCRT_SQL;
         

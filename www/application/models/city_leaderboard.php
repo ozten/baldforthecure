@@ -9,7 +9,7 @@ class City_Leaderboard_Model extends ORM
         $del = "DELETE FROM city_leaderboards_loading;";
         $ins = <<<INS_SQL
               INSERT INTO city_leaderboards_loading (city, total)
-  SELECT city, SUM(pledges_total) FROM users
+  SELECT cities.name, SUM(pledges_total) FROM users
   JOIN cities ON cities.id = users.city_id
   GROUP BY city_id
   ORDER BY SUM(pledges_total) DESC;

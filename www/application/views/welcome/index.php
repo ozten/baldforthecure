@@ -15,7 +15,7 @@
 <div class="sidebar">
     <div class="leaderboards">
         <div class="donation-count">
-            <h2>$<?= $total_pledges ?>s</h2>
+            <h2>$<?= $total_pledges ?></h2>
             <p>Donations</p>
         </div>
         <h3>Top Raisers</h3>

@@ -205,7 +205,8 @@ class OAuth_Controller extends Common_Controller {
 		
 		if ($twitter != FALSE) {
 			Kohana::log('info', "hitting twitter");
-				$ids = $twitter->get('friends/ids');
+			$ids = $twitter->get('friends/ids');
+			if (!empty($ids)) {
 				$friend_ids = array();
 				foreach($ids as $id) {
 					array_push($friend_ids, intval($id));
@@ -215,18 +216,19 @@ class OAuth_Controller extends Common_Controller {
 				foreach($existing_users as $existing_user) {
 					array_push($existing_user_ids, $existing_user->twitter_id);
 				}
-				
+
 				$model = new Users_Friend_Model;
 				$existing_friends = $model->get_old_friends($user_id);
-								
+        
 				$existing_friend_ids = array();
 				foreach($existing_friends as $existing_friend) {
 					array_push($existing_friend_ids, $existing_friend->friend_twitter_id);					
 				}
 				$new_user_ids = array_diff($friend_ids, $existing_user_ids, $existing_friend_ids);				
-				
+        
 				$model = new Users_Friend_Model;
 				$model->add_new_friends($user_id, $new_user_ids);
+			}
 		} else {
 			Kohana::log('info', "Missing session variables to setup twitter");
 		}

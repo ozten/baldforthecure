@@ -1,0 +1,16 @@
+CREATE TABLE sponsors
+    (
+        id SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
+        imagesrc VARCHAR(255) NOT NULL,
+        width SMALLINT UNSIGNED NOT NULL,
+        height SMALLINT UNSIGNED NOT NULL,
+        name VARCHAR(255) NOT NULL,
+        url VARCHAR(1024) NOT NULL,
+        enabled BOOL DEFAULT TRUE NOT NULL,
+        PRIMARY KEY (id)
+    )
+    ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+ALTER TABLE sponsors ADD CONSTRAINT ix1 UNIQUE (flickr_id);
+ALTER TABLE sponsors ADD (flickr_id INTEGER UNSIGNED NOT NULL);
+

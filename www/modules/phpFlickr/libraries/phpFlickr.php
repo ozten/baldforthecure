@@ -87,7 +87,7 @@ class phpFlickr {
 
 		//All calls to the API are done via the POST method using the PEAR::HTTP_Request package.
 		require_once 'HTTP/Request.php';
-		$this->req =& new HTTP_Request();
+		$this->req = new HTTP_Request();
 		$this->req->setMethod(HTTP_REQUEST_METHOD_POST);
 	}
 
@@ -101,7 +101,7 @@ class phpFlickr {
 		// when you include this.  They'll usually work, you'll just want to test them.
 		if ($type == 'db') {
 			require_once 'DB.php';
-			$db =& DB::connect($connection);
+			$db = DB::connect($connection);
 			if (PEAR::isError($db)) {
 				die($db->getMessage());
 			}
@@ -319,7 +319,7 @@ class phpFlickr {
 	}
 
 	function sync_upload ($photo, $title = null, $description = null, $tags = null, $is_public = null, $is_friend = null, $is_family = null) {
-		$upload_req =& new HTTP_Request();
+		$upload_req = new HTTP_Request();
 		$upload_req->setMethod(HTTP_REQUEST_METHOD_POST);
 
 
@@ -370,7 +370,10 @@ class phpFlickr {
 
 		$rsp = explode("\n", $this->response);
 		foreach ($rsp as $line) {
-			if (ereg('<err code="([0-9]+)" msg="(.*)"', $line, $match)) {
+			if (preg_match('/<err code="([0-9]+)" msg="(.*)"/', 
+					 $line, 
+					 $match)) {
+
 				if ($this->die_on_error)
 					die("The Flickr API returned the following error: #{$match[1]} - {$match[2]}");
 				else {
@@ -379,7 +382,9 @@ class phpFlickr {
 					$this->parsed_response = false;
 					return false;
 				}
-			} elseif (ereg("<photoid>(.*)</photoid>", $line, $match)) {
+			} elseif (preg_match("/<photoid>(.*)<\/photoid>/", 
+					     $line, 
+					     $match)) {
 				$this->error_code = false;
 				$this->error_msg = false;
 				return $match[1];
@@ -388,7 +393,7 @@ class phpFlickr {
 	}
 
 	function async_upload ($photo, $title = null, $description = null, $tags = null, $is_public = null, $is_friend = null, $is_family = null) {
-		$upload_req =& new HTTP_Request();
+		$upload_req = new HTTP_Request();
 		$upload_req->setMethod(HTTP_REQUEST_METHOD_POST);
 
 		$upload_req->setURL($this->Upload);
@@ -457,7 +462,7 @@ class phpFlickr {
 
 	// Interface for new replace API method.
 	function replace ($photo, $photo_id, $async = null) {
-		$upload_req =& new HTTP_Request();
+		$upload_req = new HTTP_Request();
 		$upload_req->setMethod(HTTP_REQUEST_METHOD_POST);
 
 		$upload_req->setURL($this->Replace);

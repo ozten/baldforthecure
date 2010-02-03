@@ -3,8 +3,7 @@
 
 <p>
   <img src="<?= $user->avatar ?>" /> 
-  <div><?= $user->name ?></div>
-  from <?= $user->city ?>
+  <div><?= $user->name ?></div> from <?= $user->city ?>
 </p>
 
 <?php if ($current_users_profile) { ?>
@@ -38,6 +37,7 @@
   <a href="<?= $before->page ?>">
     <img src="<?= $before->url ?>" width="<?= $before->width ?>" height="<?= $before->height ?>" alt="Before photo for <?= $user->name ?>" />
   </a>
+  <p>Posted: <?= $before->created ?></p>
 
 <?php } ?>
 </div><!-- //photo before -->
@@ -60,8 +60,10 @@
   <a href="<?= $after->page ?>">
     <img src="<?= $after->url ?>" width="<?= $after->width ?>" height="<?= $after->height ?>" alt="After photo for <?= $user->name ?>" />
   </a>
+  <p>Posted: <?= $after->created ?></p>
 
 <?php } ?>
 </div> <!-- //photo after -->
 
 <hr style="clear: both" />
+<div><br /><br /><br /></div>

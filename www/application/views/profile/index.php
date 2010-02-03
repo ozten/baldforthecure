@@ -37,7 +37,7 @@
   <a href="<?= $before->page ?>">
     <img src="<?= $before->url ?>" width="<?= $before->width ?>" height="<?= $before->height ?>" alt="Before photo for <?= $user->name ?>" />
   </a>
-  <p>Posted: <?= $before->created ?></p>
+  <p>Posted: <span class="created_date"><?= $before->created ?></span></p>
 
 <?php } ?>
 </div><!-- //photo before -->
@@ -60,7 +60,7 @@
   <a href="<?= $after->page ?>">
     <img src="<?= $after->url ?>" width="<?= $after->width ?>" height="<?= $after->height ?>" alt="After photo for <?= $user->name ?>" />
   </a>
-  <p>Posted: <?= $after->created ?></p>
+  <p>Posted: <span class='created_date'><?= $after->created ?></span></p>
 
 <?php } ?>
 </div> <!-- //photo after -->

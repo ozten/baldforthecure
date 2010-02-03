@@ -6,7 +6,7 @@ class Photo_Controller extends Common_Controller {
   public function upload()
   {
     #TODO add a naunce etc for security
-      $this->auto_render = FALSE;
+    $this->auto_render = FALSE;
     $upload_successful = FALSE;
     $error_messages = array();
     $file_validator = Validation::factory($_FILES);
@@ -15,6 +15,7 @@ class Photo_Controller extends Common_Controller {
 			       'upload::required', 
 			       'upload::type[gif,jpg,,png]', 
 			       'upload::size[8M]');
+
     $v = $file_validator->validate();
 		
     if ($v) {

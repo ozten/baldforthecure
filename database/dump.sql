@@ -50,7 +50,7 @@ CREATE TABLE `city_leaderboards` (
   `city` varchar(255) NOT NULL,
   `total` smallint(5) unsigned NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
 --
@@ -74,7 +74,7 @@ CREATE TABLE `city_leaderboards_loading` (
   `city` varchar(255) NOT NULL,
   `total` smallint(5) unsigned NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
 --
@@ -188,9 +188,9 @@ CREATE TABLE `user_pledge_leaderboards` (
   `username` varchar(80) NOT NULL,
   `name` varchar(80) NOT NULL,
   PRIMARY KEY  (`id`),
-  KEY `user_id_fk` (`user_id`),
-  CONSTRAINT `user_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
+  KEY `user_id_loading_fk` (`user_id`),
+  CONSTRAINT `user_id_loading_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
 --
@@ -217,8 +217,8 @@ CREATE TABLE `user_pledge_leaderboards_loading` (
   `username` varchar(80) NOT NULL,
   `name` varchar(80) NOT NULL,
   PRIMARY KEY  (`id`),
-  KEY `user_id_loading_fk` (`user_id`),
-  CONSTRAINT `user_id_loading_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+  KEY `user_id_fk` (`user_id`),
+  CONSTRAINT `user_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
@@ -355,4 +355,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2010-02-02  7:03:37
+-- Dump completed on 2010-02-03  3:11:49

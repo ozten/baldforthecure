@@ -80,8 +80,7 @@ class Photo_Controller extends Common_Controller {
 	      $photo->width = $size['width'];
 	      $photo->height = $size['height'];
 
-	      if ('' == $photo->page &&
-		  array_key_exists('url', $size)) {
+	      if ('' == $photo->page && array_key_exists('url', $size)) {
 		$photo->page = $size['url'];
 	      }
 
@@ -98,7 +97,8 @@ class Photo_Controller extends Common_Controller {
 	  }
 	  if (FALSE == $sawMedium) {
 	    Kohana::log('alert', 
-			"We never saw a Medium from sizes " . $photo->width . "x" . $photo->height);
+			"We never saw a Medium from sizes " . 
+			$photo->width . "x" . $photo->height);
 	  }
 	  if ('' != $photo->url) {
 	    if ($photo->save()) {
@@ -106,18 +106,24 @@ class Photo_Controller extends Common_Controller {
 	    } else {
 	      array_push($error_messages, 
 			 'Unknown error after Flickr upload occurred.');
+
 	      Kohana::log('alert', 
 			  "ORM save for photo wasn't successful");
 	    }
 	  } else {
-	    array_push($error_messages, 'Unable to get url from Flickr');
-	    Kohana::log('error', 
-			"Unable to save photo, no url " . Kohana::log($sizes));
+	    array_push($error_messages, 
+		       'Unable to get url from Flickr');
+
+	    Kohana::log('error',
+			"Unable to save photo, no url " . 
+			Kohana::debug($sizes));
 	  }
 	} else {
 	  Kohana::log('error', 
-		      "Call to getSizes failed " . Kohana::debug($sizes));
-	  array_push($error_messages, 'Unable to get photo sizes from Flickr');
+		      "Call to getSizes failed " . 
+		      Kohana::debug($sizes));
+	  array_push($error_messages, 
+		     'Unable to get photo sizes from Flickr');
 	}
 	
 	/* Again, using getSizes so don't need this. Could be a backup way from
@@ -127,7 +133,9 @@ class Photo_Controller extends Common_Controller {
 	Kohana::log('error', 
 		    "Flickr Upload Sync FAILED", 
 		    Kohana::debug($new_photo_id));
-	array_push($error_messages, 'Unable to upload photo to Flickr');
+
+	array_push($error_messages, 
+		   'Unable to upload photo to Flickr');
       }
 
       unlink($filename);

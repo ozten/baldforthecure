@@ -82,6 +82,7 @@ class TwitterOAuth {
       $parameters['oauth_callback'] = $oauth_callback;
     } 
     $request = $this->oAuthRequest($this->requestTokenURL(), 'GET', $parameters);
+    echo Kohana::debug($request);
     $token = OAuthUtil::parse_parameters($request);
     Kohana::log('debug', "huh? " . Kohana::debug($request) . " token=" . Kohana::debug($token));
     $this->token = new OAuthConsumer($token['oauth_token'], $token['oauth_token_secret']);

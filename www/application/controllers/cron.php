@@ -42,21 +42,15 @@ class Cron_Controller extends Common_Controller {
 			$photos = $flickr->photos_search(array(
 				'user_id' => flickr::userId(),
 				'tags' => 'sponsor',
-			));			
+			));
+			
 			foreach($photos['photo'] as $photo) {
-				try {
-					#echo $photo['title'] . ' ';
-					
+				
+				try {					
 					$info = $flickr->photos_getInfo($photo['id']);
 				
-					#echo Kohana::debug($info);
-				
-					#echo $info['description'];
-				
 					$sizes = $flickr->photos_getSizes($photo['id']);
-					#echo "SIZES";
-					#echo Kohana::debug($sizes);
-				
+					
 					$sponsor = ORM::factory('sponsor');
 					$sponsor->flickr_id = $photo['id'];
 					$sponsor->name = $photo['title'];					
@@ -71,6 +65,8 @@ class Cron_Controller extends Common_Controller {
 							if ('Large' == $size['label'] ||
 								'Original' == $size['label']) {
 								$sponsor->imagesrc = $size['source'];
+								
+								
 								$sponsor->width = $size['width'];
 								$sponsor->height = $size['height'];		
 								break;
@@ -79,14 +75,22 @@ class Cron_Controller extends Common_Controller {
 					} else {
 						Kohana::log('alert', "No results for photos_getSizes");
 					}
-					$sponsor->save();
+					$sponsor->save();					
 				} catch (Exception $e) {
 					Kohana::log('info', "Caught an exception, coudn't import Flickr image " . $photo['id'] .
-								' ' . $photo['title'] . ' reason: ' . $e);
-					echo Kohana::debug($e);
+								' ' . $photo['title'] . ' reason: ' . $e);					
 				}
-				usleep(300);
-			}
+				usleep(300);				
+				$icon = APPPATH . '../i/' . $photo['id'] . '.jpg';
+				
+				if (file_exists($icon)) {
+					Kohana::log('debug', "Skipping $icon already exists");
+				} else {
+					copy($size['source'], $icon);	
+				}
+			} 
+		} else {
+			# no access
 		}
 	}
     

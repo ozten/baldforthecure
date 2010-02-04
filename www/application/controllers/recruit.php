@@ -8,7 +8,7 @@ require_once(Kohana::find_file('libraries', 'twitteroauth', TRUE, 'php'));
 class Recruit_Controller extends Common_Controller {
 	public function index()
 	{
-		if (isset($_SESSION) && array_key_exists('access_token', $_SESSION)) {
+		if (auth::logged_in()) {
 			$this->template->title = "Recruit Your Friends for Bald for the Cure";
 		    $this->template->content = new View('recruit/index');
 			$this->template->content->title = "Recruit Your Friends, Update Your Status";
@@ -23,11 +23,8 @@ class Recruit_Controller extends Common_Controller {
 	{
 		$this->auto_render = FALSE;
 		//content-type json
-		if (isset($_SESSION) && array_key_exists('access_token', $_SESSION)) {
-			$connection = new TwitterOAuth(Kohana::config("twitteroauth.CONSUMER_KEY"),
-									       Kohana::config("twitteroauth.CONSUMER_SECRET"),
-									       $_SESSION['access_token']['oauth_token'],
-									       $_SESSION['access_token']['oauth_token_secret']);
+		if (auth::logged_in()) {
+			$connection = twitt::er();
 			
 			#'Firefox 3.6 is ready to bounce tommorrow. It\'s like Christmas in July in January. #Firefox'
 			
@@ -54,10 +51,7 @@ class Recruit_Controller extends Common_Controller {
 		    session_start();	
 		}
 		if (array_key_exists('access_token', $_SESSION)) {
-			$connection = new TwitterOAuth(Kohana::config("twitteroauth.CONSUMER_KEY"),
-									       Kohana::config("twitteroauth.CONSUMER_SECRET"),
-									       $_SESSION['access_token']['oauth_token'],
-									       $_SESSION['access_token']['oauth_token_secret']);
+			$connection = twitt::er();
 			
 			$status = 'Test';
 			#'Firefox 3.6 is ready to bounce tommorrow. It\'s like Christmas in July in January. #Firefox'
@@ -78,10 +72,7 @@ class Recruit_Controller extends Common_Controller {
 		    session_start();	
 		}
 		if (array_key_exists('access_token', $_SESSION)) {			
-			$connection = new TwitterOAuth(Kohana::config("twitteroauth.CONSUMER_KEY"),
-									       Kohana::config("twitteroauth.CONSUMER_SECRET"),
-									       $_SESSION['access_token']['oauth_token'],
-									       $_SESSION['access_token']['oauth_token_secret']);
+			$connection = twitt::er();
 			
 			$resp = $connection->get('account/rate_limit_status');
 			var_dump($resp);

@@ -12,5 +12,7 @@ CREATE TABLE sponsors
     ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 ALTER TABLE sponsors ADD CONSTRAINT ix1 UNIQUE (flickr_id);
-ALTER TABLE sponsors ADD (flickr_id INTEGER UNSIGNED NOT NULL);
+ALTER TABLE sponsors ADD (flickr_id BIGINT(10) UNSIGNED NOT NULL);
 
+ALTER TABLE
+    bald4thecure_dev.sponsors MODIFY COLUMN flickr_id BIGINT(10) UNSIGNED NOT NULL

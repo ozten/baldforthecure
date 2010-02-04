@@ -14,14 +14,16 @@ class OAuth_Controller extends Common_Controller {
 	{
 		$this->auto_render = FALSE;
 		if (! isset($_SESSION)) {
-		    session_start();	
+		    session_start();
 		}
 		
 		$callback_url    = url::site(Kohana::config("twitteroauth.OAUTH_CALLBACK"));
+		
 		// login
 		$connection = new TwitterOAuth(Kohana::config("twitteroauth.CONSUMER_KEY"), Kohana::config("twitteroauth.CONSUMER_SECRET"));
 		
 		$request_token = $connection->getRequestToken($callback_url);
+		
 		// Seeing Failed to validate oauth signature and token
 		// Then do sudo ntpdate ntp.ubuntu.com
 		
@@ -61,9 +63,11 @@ class OAuth_Controller extends Common_Controller {
 		}
 		/* Create TwitteroAuth object with app key/secret and token key/secret from default phase */
 		$connection = new TwitterOAuth(Kohana::config("twitteroauth.CONSUMER_KEY"),
-									   Kohana::config("twitteroauth.CONSUMER_SECRET"),
-									   $_SESSION['oauth_token'],
-									   $_SESSION['oauth_token_secret']);
+                                       Kohana::config("twitteroauth.CONSUMER_SECRET"),
+                                       $_SESSION['oauth_token'],
+                                       $_SESSION['oauth_token_secret']);
+
+		
 		/* Request access tokens from twitter */
 		$access_token = $connection->getAccessToken($_REQUEST['oauth_verifier']);
 	
@@ -87,11 +91,7 @@ class OAuth_Controller extends Common_Controller {
 	
 	public function saveUser($access_token)
 	{				
-		/* Create a TwitterOauth object with consumer/user tokens. */
-		$connection = new TwitterOAuth(Kohana::config("twitteroauth.CONSUMER_KEY"),
-									   Kohana::config("twitteroauth.CONSUMER_SECRET"),
-									   $access_token['oauth_token'],
-									   $access_token['oauth_token_secret']);
+		$connection = twitt::er();
 		
 		$user = $connection->get('account/verify_credentials');
 		$username = trim($user->screen_name);
@@ -171,26 +171,11 @@ class OAuth_Controller extends Common_Controller {
 		}
 	}
 	
-	protected function twitterIfLoggedIn()
-	{
-		if (isset($_SESSION) &&
-		    array_key_exists('username', $_SESSION) &&
-			array_key_exists('access_token', $_SESSION)) {
-			return new TwitterOAuth(Kohana::config("twitteroauth.CONSUMER_KEY"),
-									       Kohana::config("twitteroauth.CONSUMER_SECRET"),
-									       $_SESSION['access_token']['oauth_token'],
-									       $_SESSION['access_token']['oauth_token_secret']);
-		
-		}
-		return FALSE;
-	}
-	
 	public function repairSocialGraph()
 	{
 		$this->auto_render = FALSE;
-		$twitter = $this->twitterIfLoggedIn();
 		
-		if ($twitter != FALSE) {
+		if (auth::logged_in()) {
 			$this->_repairSocialGraph($_SESSION['userid']);			
 		} else {
 			header('Bad request', TRUE, 400);
@@ -199,12 +184,10 @@ class OAuth_Controller extends Common_Controller {
 	}
 	
 	public function _repairSocialGraph($user_id)
-	{
-		Kohana::log('info', "_repairSocialGraph called");
-		$twitter = $this->twitterIfLoggedIn();
-		
-		if ($twitter != FALSE) {
+	{	
+		if (auth::logged_in()) {
 			Kohana::log('info', "hitting twitter");
+			$twitter = twitt::er();
 			$ids = $twitter->get('friends/ids');
 			if (!empty($ids)) {
 				$friend_ids = array();
@@ -237,10 +220,9 @@ class OAuth_Controller extends Common_Controller {
 	public function repairAvatar()
 	{
 		$this->auto_render = FALSE;
-		$twitter = $this->twitterIfLoggedIn();
 		
-		if ($twitter != FALSE) {
-
+		if (auth::logged_in()) {
+			$twitter = twitt::er();
 			$info = $twitter->get('users/show', array(
 				'screen_name' => $_SESSION['username'],
 			));
@@ -263,11 +245,7 @@ class OAuth_Controller extends Common_Controller {
 		/* Get user access tokens out of the session. */
 		$access_token = $_SESSION['access_token'];
 		
-		/* Create a TwitterOauth object with consumer/user tokens. */
-		$connection = new TwitterOAuth(Kohana::config("twitteroauth.CONSUMER_KEY"),
-									   Kohana::config("twitteroauth.CONSUMER_SECRET"),
-									   $access_token['oauth_token'],
-									   $access_token['oauth_token_secret']);
+		$connection = twitt::er();
 		
 		/* If method is set change API call made. Test is called by default. */
 		$content = $connection->get('account/rate_limit_status');

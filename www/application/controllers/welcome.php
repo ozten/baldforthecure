@@ -68,7 +68,6 @@ class Welcome_Controller extends Common_Controller {
 		}
 		$this->template->content->user_city_leader->leaders = $cities;
 	
-        echo Kohana::debug($this->template->page_scripts);
         
 		$this->addJavaScriptFile('http://www.google.com/jsapi?key=ABQIAAAAmKAzpAHjVelFU3Tswxs_cxSP4LhHfEoiH522jvHiOmqO1Rb71RSQNJ3VLezpnRyMWgqq7xraaLGygg');
 		$this->addJavaScriptCode('google.load("feeds", "1");');

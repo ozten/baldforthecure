@@ -31,7 +31,6 @@ class OAuth_Controller extends Common_Controller {
         $_SESSION['oauth_token'] = $token = $request_token['oauth_token'];
         $_SESSION['oauth_token_secret'] = $request_token['oauth_token_secret'];
 		
-		Kohana::log('debug', "Twitter request tokens - " . Kohana::debug($request_token));
 
 		/* If last connection fails don't display authorization link */
 		switch ($connection->http_code) {

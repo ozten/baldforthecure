@@ -19,6 +19,18 @@ class Common_Controller extends Template_Controller {
 	{
 		parent::__construct();
 		$this->recognizeUser();
+		// List of JavaScript to include at the bottom of the page
+		$this->template->set_global('page_scripts', array());
+	}
+	
+	protected function addJavaScriptFile($src)
+	{
+		array_push($this->template->page_scripts, array('src' => $src));
+		
+	}
+	protected function addJavaScriptCode($code)
+	{
+		array_push($this->template->page_scripts, array('tag' => $code));
 	}
 	
 	protected function recognizeUser()

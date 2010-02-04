@@ -30,11 +30,7 @@
         
     </div><!-- /leaderboards -->
     <div class="leaderboards">
-        <h2>Recent News</h2>
-        <h3>Headline of a recent blog post</h3>
-        <p>Some copy here.</p>
-        <h3>Another Headline of a recent blog post</h3>
-        <p>Some other copy here.</p>
-        <a href="#">Subscribe</a>
+        <div id="feeddiv"></div>
+        <a id="blog-link" href="<?= url::site('/blog/') ?>">Read it all on the blog</a>
     </div><!-- /leaderboards -->
 </div>

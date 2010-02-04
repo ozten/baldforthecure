@@ -50,6 +50,10 @@
 			</div>
 		    <?php echo $content ?>
 			<br class="clearboth" />
+			<ul class="page-nav">
+				<li><a href="<?= url::site('/sponsors') ?>">Our Sponsors</a></li>
+				
+			</ul>
 		</div>
 		<div class="footer">
 			<p class="copyright">
@@ -60,5 +64,16 @@
 	</div><!-- /page -->
 <script src="/js/jquery-1.4.min.js" type="text/javascript"></script>
 <script src="/js/behaviors.js" type="text/javascript"></script>
+
+<?= Kohana::debug($page_scripts) ?>
+<?php foreach($page_scripts as $script) {
+ 	      if (array_key_exists('src', $script)) {?>
+		<script type="text/javascript" src="<?= $script['src'] ?>"></script>
+<?php     } else if (array_key_exists('tag', $script)) { ?>
+		<script type="text/javascript"><?= $script['tag'] ?></script>
+<?php     } else { ?>
+		no dice <?= Kohana::debug($script); ?>
+<?php   } 
+} ?>
 </body>
 </html>

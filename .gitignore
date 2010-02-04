@@ -7,3 +7,6 @@ BaldProject.kpf
 www/application/config
 www/application/logs
 www/application/cache
+
+dumpdb.sh
+bald.html

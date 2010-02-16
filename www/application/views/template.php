@@ -18,6 +18,7 @@
 			<ul id="header-nav" class="nav">
 				<li><a href="#">Donate</a></li>
 				<li><a href="/recruit/index">Recruit</a></li>
+				<li><a href="/participate">Participate</a></li>
 				<li><?= $user_widget ?></li>
 	    
 		<!--li><a href="<?= url::site("/blog") ?>">Blog</a></li>
